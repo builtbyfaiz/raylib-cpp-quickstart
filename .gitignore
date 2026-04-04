@@ -3,6 +3,16 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Added by faiz
+build/external/
+build/build_files/
+build/compile_commands.json
+bin/
+obj/
+*.zip
+*.tar.gz
+*.make
+
 # User-specific files
 *.rsuser
 *.suo

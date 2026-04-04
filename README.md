@@ -1,6 +1,13 @@
-# Raylib-Quickstart
-A simple cross platform template for setting up a project with the bleeding edge raylib code.
-Works with C or C++.
+# Raylib-Cpp-Quickstart
+
+A fork of raylib-quickstart, extended with raylib-cpp and clangd integration.<br>
+**Note:** This project is not actively maintained and defaults to raylib-5.5 and raylib-cpp-5.5.1
+
+## What's different
+
+* **raylib-cpp integrated** (auto-downloaded along with raylib itself)
+* **clangd IntelliSense support** via `compile_commands.json`
+<br><br>
 
 # Basic Setup
 Download this repository to get started.
@@ -12,12 +19,12 @@ or
 
 Clone the repository with git, from the url
 ```
-https://github.com/raylib-extras/raylib-quickstart.git
+https://github.com/builtbyfaiz/raylib-cpp-quickstart.git
 ```
 
 If you are using a command line git client you can use the command below to download and rename the template in one step
 ```
-git clone https://github.com/raylib-extras/raylib-quickstart.git [name-for-your-project-here]
+git clone https://github.com/builtbyfaiz/raylib-cpp-quickstart.git [name-for-your-project-here]
 ```
 
 # Naming projects
@@ -26,7 +33,7 @@ git clone https://github.com/raylib-extras/raylib-quickstart.git [name-for-your-
 * If you have used custom game name with __git clone__, there is no need to rename it again.
 
 
-## Supported Platforms
+# Supported Platforms
 Quickstart supports the main 3 desktop platforms:
 * Windows
 * Linux
@@ -43,7 +50,14 @@ Quickstart supports the main 3 desktop platforms:
 
 # Windows Users
 There are two compiler toolchains available for windows, MinGW-W64 (a free compiler using GCC), and Microsoft Visual Studio
+
 ## Using MinGW-W64
+Recommended to be installed:
+* **w64devkit** (build toolchain, provides compatible mingw)
+* **llvm-mingw (ucrt-x86_64)** *(optional, for clangd)*
+
+> clangd must match LLVM family to avoid header conflicts so use llvm-mingw and not just llvm
+
 * Rename the folder to your game name
 * Double click the `build-MinGW-W64.bat` file
 * CD into the folder in your terminal
@@ -52,15 +66,15 @@ There are two compiler toolchains available for windows, MinGW-W64 (a free compi
 * run `make`
 * You are good to go
 
-### Note on MinGW-64 versions
+### Note on MinGW-W64 versions
 Make sure you have a modern version of MinGW-W64 (not mingw).
-The best place to get it is from the W64devkit from
+Recommended:
 https://github.com/skeeto/w64devkit/releases
 
 or the version installed with the raylib installer
 
-#### If you have installed raylib from the installer
-Make sure you have added the path
+#### If you installed raylib via installer
+Add:
 
 `C:\raylib\w64devkit\bin`
 
@@ -71,37 +85,58 @@ DO NOT INSTALL ANOTHER MinGW-W64 from another source such as msys2, you don't ne
 ## Microsoft Visual Studio 2026
 * Rename the folder to your game name
 * Run `build-VisualStudio2026.bat`
-* double click the `.slnx` file that is generated
-* develop your game
-* you are good to go
+* Open the generated `.slnx` file
+* Develop your game
+* You are good to go
 
 # Linux Users
+`sudo apt install clang clangd` required for clang intellisense.
+
 * Rename the folder to your game name
 * CD into the build folder
 * run `./premake5 gmake`
-* CD back to the root
+* CD back to root
 * run `make`
-* you are good to go
+* You are good to go
+
+
 
 # MacOS Users
+`brew install llvm` required for llvm
 * Rename the folder to your game name
 * CD into the build folder
 * run `./premake5.osx gmake`
-* CD back to the root
+* CD back to root
 * run `make`
-* you are good to go
+* You are good to go
 
 # Output files
-The built code will be in the bin dir
+The built code will be in the `bin` directory.
 
 # Working directories and the resources folder
 The example uses a utility function from `path_utils.h` that will find the resources dir and set it as the current working directory. This is very useful when starting out. If you wish to manage your own working directory you can simply remove the call to the function and the header.
 
-# Changing to C++
-Simply rename `src/main.c` to `src/main.cpp` and re-run the steps above and do a clean build.
+# C++ Support (raylib-cpp)
+
+This template is **pre-configured for C++** using **raylib-cpp bindings**.
+
+* `main.cpp` is used by default
+* raylib-cpp is automatically downloaded alongside raylib
+* Versions are synced for compatibility
 
 # Using your own code
-Simply remove `src/main.c` and replace it with your code, and re-run the steps above and do a clean build.
+Replace `src/main.cpp` with your own code and rebuild.
+
+## Updating Versions of Raylib and Raylib-cpp
+
+Edit in `build/premake5.lua`:
+
+```
+raylib_version    = "5.5"
+raylibcpp_version = "5.5.1"
+```
+
+Keep both versions in sync.
 
 # Building for other OpenGL targets
 If you need to build for a different OpenGL version than the default (OpenGL 3.3) you can specify an OpenGL version in your premake command line. Just modify the bat file or add the following to your command line
@@ -128,7 +163,7 @@ If you need to build for a different OpenGL version than the default (OpenGL 3.3
 Sofware rendering does not work with glfw, use Win32 or SDL platforms
 `--backend=win32`
 
-# Adding External Libraries 
+# Adding External Libraries
 
 Quickstart is intentionally minimal — it only includes what is required to compile and run a basic raylib project.  
 If you want to use extra libraries, you can add them to the `build/premake5.lua` file yourself using the links function.
@@ -155,7 +190,19 @@ filter "system:windows"
 If you add a library, make sure to add its required dependencies for all platforms you plan to support (Windows, Linux, MacOS).
 Different libraries will have different dependencies on different platforms.
 
+## Credits
 
-# License
-Raylib-Quickstart by Jeffery Myers is marked with CC0 1.0. To view a copy of this license, visit https://creativecommons.org/publicdomain/zero/1.0/
+This project builds upon the following:
 
+* **raylib-cpp**<br>
+  Repository: [https://github.com/RobLoach/raylib-cpp](https://github.com/RobLoach/raylib-cpp)<br>
+  Author: Rob Loach<br>
+  License: zlib/libpng license
+
+* **raylib-quickstart**<br>
+  Author: Jeffery Myers<br>
+  Repository: [https://github.com/raylib-extras/raylib-quickstart](https://github.com/raylib-extras/raylib-quickstart)
+  License: CC0 1.0 Universal (Public Domain Dedication)<br>
+  License link: [https://creativecommons.org/publicdomain/zero/1.0/](https://creativecommons.org/publicdomain/zero/1.0/)
+
+All original licenses and copyright notices of the above projects are preserved.
