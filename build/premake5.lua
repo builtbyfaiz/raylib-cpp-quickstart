@@ -218,13 +218,13 @@ if (downloadRaylib) then
 
         vpaths 
         {
-            ["Header Files/*"] = { "../include/**.h",  "../include/**.hpp", "../src/**.h", "../src/**.hpp"},
+            ["Header Files/*"] = { "../src/**.h",  "../src/**.hpp"},
             ["Source Files/*"] = {"../src/**.c", "src/**.cpp"},
             ["Windows Resource Files/*"] = {"../src/**.rc", "../src/**.ico"},
             ["Game Resource Files/*"] = {"../resources/**"},
         }
         
-        files {"../src/**.c", "../src/**.cpp", "../src/**.h", "../src/**.hpp", "../include/**.h", "../include/**.hpp"}
+        files {"../src/**.c", "../src/**.cpp", "../src/**.h", "../src/**.hpp"}
         
         filter {"system:windows", "action:vs*"}
             files {"../src/*.rc", "../src/*.ico"}
@@ -237,7 +237,7 @@ if (downloadRaylib) then
 
         links {"raylib"}
 
-        cdialect "C23"
+        cdialect "C17"
         cppdialect "C++20"
 
         includedirs {raylib_dir .. "/src" }
